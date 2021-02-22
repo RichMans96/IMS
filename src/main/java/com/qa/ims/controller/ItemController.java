@@ -30,9 +30,9 @@ public class ItemController implements CrudController<Item> {
 
 	@Override
 	public Item create() {
-		LOGGER.info("Please the item name");
+		LOGGER.info("Please enter the item name");
 		String itemName = utils.getString();
-		LOGGER.info("Please the item price");
+		LOGGER.info("Please enter the item price");
 		Double itemPrice = utils.getDouble();
 		Item item = itemDAO.create(new Item(itemName, itemPrice));
 		LOGGER.info("Item created");
