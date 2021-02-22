@@ -88,8 +88,15 @@ public class ItemDAO implements Dao<Item> {
 	}
 
 	@Override
-	public int delete(long id) {
-		// TODO Auto-generated method stub
+	public int delete(long itemId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE item_id = ?");) {
+			statement.setLong(1, itemId);
+			return statement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return 0;
 	}
 
