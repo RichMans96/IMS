@@ -3,14 +3,14 @@ package com.qa.ims.persistence.domain;
 public class Order {
 	
 	private Long orderId;
-	private Long id;
+	private Long custId;
 	private Long itemId;
 	private Integer qty;
 	private Double totalCost;
 
-	public Order(Long orderId, Long id, Long itemId, Integer qty, Double totalCost) {
+	public Order(Long orderId, Long custId, Long itemId, Integer qty, Double totalCost) {
 		this.setOrderId(orderId);
-		this.setCustomerId(id);
+		this.setCustomerId(custId);
 		this.setItemId(itemId);
 		this.setQty(qty);
 		this.setTotalCost(totalCost);
@@ -18,6 +18,13 @@ public class Order {
 
 	public Order(Long orderId, Integer qty, Double totalCost) {
 		this.setOrderId(orderId);
+		this.setQty(qty);
+		this.setTotalCost(totalCost);
+	}
+	
+	public Order(Long custId, Long itemId, Integer qty, Double totalCost) {
+		this.setCustomerId(custId);
+		this.setItemId(itemId);
 		this.setQty(qty);
 		this.setTotalCost(totalCost);
 	}
@@ -31,11 +38,11 @@ public class Order {
 	}
 	
 	public Long getCustomerId() {
-		return id;
+		return custId;
 	}
 
-	public void setCustomerId(Long id) {
-		this.id = id;
+	public void setCustomerId(Long custId) {
+		this.custId = custId;
 	}
 	
 	public Long getItemId() {
