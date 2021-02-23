@@ -7,26 +7,23 @@ public class Order {
 	private Long itemId;
 	private Integer qty;
 	private Double totalCost;
+	private String itemName;
+	private String custName;
 
-	public Order(Long orderId, Long custId, Long itemId, Integer qty, Double totalCost) {
+	public Order(Long orderId, Long itemId, Integer qty, Double totalCost, String itemName, String custName) {
 		this.setOrderId(orderId);
-		this.setCustomerId(custId);
 		this.setItemId(itemId);
 		this.setQty(qty);
 		this.setTotalCost(totalCost);
+		this.setCustName(custName);
+		this.setItemName(itemName);
 	}
 
-	public Order(Long orderId, Integer qty, Double totalCost) {
-		this.setOrderId(orderId);
-		this.setQty(qty);
-		this.setTotalCost(totalCost);
-	}
 	
-	public Order(Long custId, Long itemId, Integer qty, Double totalCost) {
+	public Order(Long custId, Long itemId, Integer qty) {
 		this.setCustomerId(custId);
 		this.setItemId(itemId);
 		this.setQty(qty);
-		this.setTotalCost(totalCost);
 	}
 
 	public Long getOrderId() {
@@ -72,10 +69,29 @@ public class Order {
 	public void setTotalCost(Double totalCost) {
 		this.totalCost = totalCost;
 	}
+	
+	public String getItemName() {
+		return itemName;
+	}
+
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+
+	public String getCustName() {
+		return custName;
+	}
+
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
 
 	@Override
 	public String toString() {
-		return "id:" + orderId + " Quantity" + qty + " Total Price:" + totalCost;
+		return "id: " + orderId + " first name: " + custName + " item: " + itemName + " Quantity: " + qty + " reaTotal Price: " + totalCost;
 	}
 
 	@Override
@@ -88,5 +104,8 @@ public class Order {
 	public boolean equals(Object obj) {
 		return true;
 	}
+
+
+
 
 }

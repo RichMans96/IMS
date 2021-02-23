@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,16 +17,48 @@ import com.qa.ims.utils.DBUtils;
 public class OrderDAO implements Dao<Order> {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
-
+	
 	@Override
-	public List<Order> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
+		Long orderId = resultSet.getLong("order_id");
+		Long itemId = resultSet.getLong("item_id");
+		Integer qty = resultSet.getInt("qty");
+		Double totalPrice = resultSet.getDouble("total_cost");
+		String custName = resultSet.getString("first_name");
+		String itemName = resultSet.getString("item_name");
+		return new Order(orderId, itemId, qty, totalPrice, custName, itemName);
 	}
 
 	@Override
-	public Order read(Long id) {
-		// TODO Auto-generated method stub
+	public List<Order> readAll() {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("select orders.order_id, customers.first_name, orders.item_id, items.item_name, orders.qty, (orders.qty * items.item_price) as total_cost from `ims`.orders, `ims`.customers, `ims`.items where orders.id = customers.id;");) {
+			List<Order> customers = new ArrayList<>();
+			while (resultSet.next()) {
+				customers.add(modelFromResultSet(resultSet));
+			}
+			return customers;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
+	}
+
+	@Override
+	public Order read(Long orderId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE id = ?");) {
+			statement.setLong(1, orderId);
+			try (ResultSet resultSet = statement.executeQuery();) {
+				resultSet.next();
+				return modelFromResultSet(resultSet);
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 	
@@ -72,14 +105,6 @@ public class OrderDAO implements Dao<Order> {
 		return 0;
 	}
 
-	@Override
-	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("order_id");
-		Long id = resultSet.getLong("id");
-		Long itemId = resultSet.getLong("item_id");
-		Integer qty = resultSet.getInt("qty");
-		Double totalPrice = resultSet.getDouble("total_cost");
-		return new Order(orderId, id, itemId, qty, totalPrice);
-	}
+
 
 }
