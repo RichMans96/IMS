@@ -25,6 +25,13 @@ public class Order {
 		this.setItemId(itemId);
 		this.setQty(qty);
 	}
+	
+	public Order(Long orderId, Long custId, Long itemId, Integer qty) {
+		this.setOrderId(orderId);
+		this.setCustomerId(custId);
+		this.setItemId(itemId);
+		this.setQty(qty);
+	}
 
 	public Long getOrderId() {
 		return orderId;
