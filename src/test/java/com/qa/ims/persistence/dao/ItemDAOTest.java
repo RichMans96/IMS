@@ -55,5 +55,11 @@ public class ItemDAOTest {
 
 	}
 	
+	@Test
+	public void testDelete() {
+			assertEquals(1, itemDAO.delete(1));
+	}
+	
+	
 
 }
