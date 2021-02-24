@@ -48,5 +48,12 @@ public class ItemDAOTest {
 		assertEquals(new Item(itemId, "Pen", 0.2), itemDAO.read(itemId));
 	}
 	
+	@Test
+	public void testUpdate() {
+		final Item updatedItem = new Item(1L, "TV", 100.20);
+		assertEquals(updatedItem, itemDAO.update(updatedItem));
+
+	}
+	
 
 }

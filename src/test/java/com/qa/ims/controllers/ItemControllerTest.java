@@ -57,4 +57,21 @@ public class ItemControllerTest {
 
 		Mockito.verify(dao, Mockito.times(1)).readAll();
 	}
+	
+	@Test
+	public void testUpdate() {
+		Item updatedItem = new Item(1L, "TV", 100.20);
+
+		Mockito.when(this.utils.getLong()).thenReturn(updatedItem.getItemId());
+		Mockito.when(this.utils.getString()).thenReturn(updatedItem.getItemName());
+		Mockito.when(this.utils.getDouble()).thenReturn(updatedItem.getItemPrice());
+		Mockito.when(this.dao.update(updatedItem)).thenReturn(updatedItem);
+
+		assertEquals(updatedItem, this.controller.update());
+
+		Mockito.verify(this.utils, Mockito.times(1)).getLong();
+		Mockito.verify(this.utils, Mockito.times(1)).getString();
+		Mockito.verify(this.utils, Mockito.times(1)).getDouble();
+		Mockito.verify(this.dao, Mockito.times(1)).update(updatedItem);
+	}
 }
