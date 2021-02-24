@@ -36,8 +36,18 @@ public class ItemDAO implements Dao<Item> {
 	}
 
 	@Override
-	public Item read(Long id) {
-		// TODO Auto-generated method stub
+	public Item read(Long itemId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE id = ?");) {
+			statement.setLong(1, itemId);
+			try (ResultSet resultSet = statement.executeQuery();) {
+				resultSet.next();
+				return modelFromResultSet(resultSet);
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
@@ -57,7 +67,7 @@ public class ItemDAO implements Dao<Item> {
 		return null;
 	}
 
-	private Item readLatest() {
+	public Item readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY item_id DESC LIMIT 1");) {
