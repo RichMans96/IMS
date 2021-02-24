@@ -45,4 +45,16 @@ public class ItemControllerTest {
 		Mockito.verify(utils, Mockito.times(1)).getDouble();
 		Mockito.verify(dao, Mockito.times(1)).create(created);
 	}
+	
+	@Test
+	public void testReadAll() {
+		List<Item> items = new ArrayList<>();
+		items.add(new Item(2L, "Pizza", 9.99));
+
+		Mockito.when(dao.readAll()).thenReturn(items);
+
+		assertEquals(items, controller.readAll());
+
+		Mockito.verify(dao, Mockito.times(1)).readAll();
+	}
 }
