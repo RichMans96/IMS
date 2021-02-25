@@ -12,13 +12,13 @@ public class Order {
 	private String itemName;
 	private String custName;
 
-	public Order(Long orderId, Long itemId, Integer qty, Double totalCost, String itemName, String custName) {
+	public Order(Long orderId, Long itemId, Integer qty, Double totalCost, String custName, String itemName) {
 		this.setOrderId(orderId);
 		this.setItemId(itemId);
 		this.setQty(qty);
 		this.setTotalCost(totalCost);
-		this.setItemName(itemName);
 		this.setCustName(custName);
+		this.setItemName(itemName);
 	}
 
 	
