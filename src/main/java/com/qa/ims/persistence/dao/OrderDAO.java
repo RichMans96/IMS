@@ -33,7 +33,8 @@ public class OrderDAO implements Dao<Order> {
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select orders.order_id, customers.first_name, orders.item_id, items.item_name, orders.qty, (orders.qty * items.item_price) as total_cost from `ims`.orders, `ims`.customers, `ims`.items where orders.id = customers.id;");) {
+				// table names had `ims` before them but didn't work in test.
+				ResultSet resultSet = statement.executeQuery("select orders.order_id, customers.first_name, orders.item_id, items.item_name, orders.qty, (orders.qty * items.item_price) as total_cost from orders, customers, items where orders.id = customers.id;");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -83,7 +84,7 @@ public class OrderDAO implements Dao<Order> {
 			statement.setLong(1, order.getCustomerId());
 			statement.setLong(2, order.getItemId());
 			statement.setInt(3, order.getQty());
-			statement.setDouble(4, order.getTotalCost());
+			statement.setDouble(4, 0.0);
 			statement.executeUpdate();
 			return readLatest();
 		} catch (Exception e) {
