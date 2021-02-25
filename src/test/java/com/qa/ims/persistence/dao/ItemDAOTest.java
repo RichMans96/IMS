@@ -6,9 +6,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.Statement;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DBUtils;
@@ -18,11 +20,23 @@ public class ItemDAOTest {
 	
 	private final ItemDAO itemDAO = new ItemDAO();
 	
-	@BeforeEach
+    
+    public static void clearItemsTable() {
+       try (Connection connection = DBUtils.getInstance().getConnection();
+               Statement statement = connection.createStatement();) {
+    	   statement.executeUpdate("delete from items");
+       } catch (Exception e) {
+           System.out.println(e.getMessage());
+       }
+   }
+	
+	@Before
 	public void setup() {
 		DBUtils.connect();
 		DBUtils.getInstance().init("src/test/resources/sql-schema.sql", "src/test/resources/sql-data.sql");
+		ItemDAOTest.clearItemsTable();
 	}
+	
 	
 	@Test
 	public void testCreate() {
