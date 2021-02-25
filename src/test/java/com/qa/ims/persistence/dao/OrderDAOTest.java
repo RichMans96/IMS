@@ -47,6 +47,12 @@ public class OrderDAOTest {
 	}
 	
 	@Test
+	public void testUpdate() {
+		final Order updatedItem = new Order(1L, 1L, 1L, 2);
+		assertEquals(updatedItem, orderDAO.update(updatedItem));
+	}
+	
+	@Test
 	public void testDelete() {
 		assertEquals(1, orderDAO.delete(1));
 	}
