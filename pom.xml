@@ -79,13 +79,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Multi-Release>true</Multi-Release>
-						</manifestEntries>
-					</archive>
-				</configuration>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -95,10 +88,11 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>
-										com.qa.ims.Runner
-									</mainClass>
+									<mainClass>com.qa.ims.Runner</mainClass>
 								</manifest>
+								<manifestEntries>
+									<Multi-Release>true</Multi-Release>
+								</manifestEntries>
 							</archive>
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
