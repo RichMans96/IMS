@@ -39,7 +39,7 @@ There are three different test folders, one for controllers, one for the DAO and
 
 The controller tests use Mockito. This allows to runs tests that mimic real life.
 
- ``test
+ ``@Test
 	public void testCreate() {
 		final String I_NAME = "Pen";
 		final Double I_PRICE = 2.2;
