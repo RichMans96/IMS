@@ -1,4 +1,4 @@
-Coverage: 79.7%
+Coverage: 67.2%
 # IMS Project
 
 This was the first project assigned to me during trainging at the QA Consutling Academy. It's a simple Inventory Management System that uses CRUD to manipulate an SQL database from a CLI.
