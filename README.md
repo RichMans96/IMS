@@ -31,26 +31,41 @@ Follow the on screen menu, create a customer and an item first as an order needs
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+To run the tests, right click on the project > coverage as > junit test. 
 
-### Unit Tests 
+### Tests 
 
-Explain what these tests test, why and how to run them
+There are three different test folders, one for controllers, one for the DAO and one for the domains.
 
-```
-Give an example
-```
+The controller tests use Mockito. This allows to runs tests that mimic real life.
 
-### Integration Tests 
-Explain what these tests test, why and how to run them
+ ``test
+	public void testCreate() {
+		final String I_NAME = "Pen";
+		final Double I_PRICE = 2.2;
+		final Item created = new Item(I_NAME, I_PRICE);
 
-```
-Give an example
-```
+		Mckito.when(utils.getString()).thenReturn(I_NAME);
+		Mockito.when(utils.getDouble()).thenReturn(I_PRICE);
+		Mockito.when(dao.create(created)).thenReturn(created);
 
-## Deployment
+		assertEquals(created, controller.create());
 
-Add additional notes about how to deploy this on a live system
+		Mockito.verify(utils, Mockito.times(1)).getString();
+		Mockito.verify(utils, Mockito.times(1)).getDouble();
+		Mockito.verify(dao, Mockito.times(1)).create(created);
+	}
+``
+This Test mimics/mocks the live system. So this would be an example of integration testing, as it's testing the user input and the create mthod in the DAO which interacts with the database.
+
+	``@Test
+	public void testCreate() {
+		final Item created = new Item(2L, "Paper", 1.2);
+		assertEquals(created, itemDAO.create(created));
+	}
+	``
+  This test would be an example of Unit testing, it's only testing how the method interacts with the database.
+
 
 ## Built With
 
@@ -69,8 +84,4 @@ We use [SemVer](http://semver.org/) for versioning.
 
 This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details 
 
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
 
